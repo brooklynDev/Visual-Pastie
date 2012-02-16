@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PastieAPI", "PastieAPI\PastieAPI.csproj", "{783ABD2A-BD49-46EF-8C47-DE364CDFFF34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PastieAPI.Tests", "PastieAPI.Tests\PastieAPI.Tests.csproj", "{EEB33BAF-9CA6-492F-A777-29189E4472EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualPastie", "VisualPastie\VisualPastie.csproj", "{EE80BD61-FDBE-4299-AF3F-D6A8A0DC4F4D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{783ABD2A-BD49-46EF-8C47-DE364CDFFF34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{783ABD2A-BD49-46EF-8C47-DE364CDFFF34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{783ABD2A-BD49-46EF-8C47-DE364CDFFF34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{783ABD2A-BD49-46EF-8C47-DE364CDFFF34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEB33BAF-9CA6-492F-A777-29189E4472EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEB33BAF-9CA6-492F-A777-29189E4472EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEB33BAF-9CA6-492F-A777-29189E4472EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEB33BAF-9CA6-492F-A777-29189E4472EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE80BD61-FDBE-4299-AF3F-D6A8A0DC4F4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE80BD61-FDBE-4299-AF3F-D6A8A0DC4F4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE80BD61-FDBE-4299-AF3F-D6A8A0DC4F4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE80BD61-FDBE-4299-AF3F-D6A8A0DC4F4D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
