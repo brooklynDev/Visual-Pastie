@@ -8,6 +8,7 @@
     <Locale>1033</Locale>
     <MoreInfoUrl>https://github.com/brooklynDev/Visual-Pastie</MoreInfoUrl>
     <Icon>visualpastie.ico</Icon>
+    <PreviewImage>visualpastie.ico</PreviewImage>
     <InstalledByMsi>false</InstalledByMsi>
     <SupportedProducts>
       <VisualStudio Version="10.0">
