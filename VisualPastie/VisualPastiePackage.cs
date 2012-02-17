@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using System.ComponentModel.Design;
 using System.Windows.Forms;
 using EnvDTE;
+using EnvDTE80;
+using Microsoft.VisualStudio.CommandBars;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
@@ -34,18 +36,25 @@ namespace Microsoft.VisualPastie
             Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
 
-            var mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            var mcs = GetService(typeof (IMenuCommandService)) as OleMenuCommandService;
+
             if (null != mcs)
             {
-                var menuCommandID = new CommandID(GuidList.guidVisualPastieCmdSet, (int)PkgCmdIDList.visualPastieCommand);
+                var menuCommandID = new CommandID(GuidList.guidVisualPastieCmdSet,
+                                                  (int) PkgCmdIDList.visualPastieCommand);
                 var menuItem = new MenuCommand(MenuItemCallback, menuCommandID);
                 mcs.AddCommand(menuItem);
+
+                
             }
+
         }
 
         private void MenuItemCallback(object sender, EventArgs e)
         {
+            
             var view = GetActiveTextView();
+
             if (view == null || Dte.ActiveDocument == null)
             {
                 return;
