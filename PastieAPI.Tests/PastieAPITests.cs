@@ -13,7 +13,7 @@ namespace PastieAPI.Tests
         [Test]
         public void WhenPastingCodeReturnsValidLink()
         {
-            var result = Pastie.Paste("some sample code", Languages.CSharp);
+            var result = Pastie.Paste("some sample code", Language.CSharp);
             Assert.IsTrue(IsValidLink(result));
         }
 

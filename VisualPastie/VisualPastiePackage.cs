@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.ComponentModel.Design;
 using System.Windows.Forms;
 using EnvDTE;
-using EnvDTE80;
-using Microsoft.VisualStudio.CommandBars;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
-using Microsoft.Win32;
-using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using PastieAPI;
-using Languages = PastieAPI.Languages;
+using PastieLangauge = PastieAPI.Language;
 
 namespace Microsoft.VisualPastie
 {
@@ -26,59 +21,67 @@ namespace Microsoft.VisualPastie
     [Guid(GuidList.guidVisualPastiePkgString)]
     public sealed class VisualPastiePackage : Package
     {
-        public VisualPastiePackage()
-        {
-            Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
-        }
-
         protected override void Initialize()
         {
-            Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
 
-            var mcs = GetService(typeof (IMenuCommandService)) as OleMenuCommandService;
+            var mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
 
             if (null != mcs)
             {
-                var menuCommandID = new CommandID(GuidList.guidVisualPastieCmdSet,
-                                                  (int) PkgCmdIDList.visualPastieCommand);
+                var menuCommandID = new CommandID(GuidList.guidVisualPastieCmdSet, (int)PkgCmdIDList.visualPastieCommand);
                 var menuItem = new MenuCommand(MenuItemCallback, menuCommandID);
                 mcs.AddCommand(menuItem);
-
-                
             }
-
         }
 
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            
             var view = GetActiveTextView();
-
             if (view == null || Dte.ActiveDocument == null)
             {
                 return;
             }
 
             var content = GetTextForPastie(view);
-            var url = Pastie.Paste(content, Languages.CSharp);
+            var url = Pastie.Paste(content, GetCurrentEditorLanguage());
             Clipboard.SetText(url);
 
             SetStatus("Pastie created successfully and url copied to clipboard. " + url);
         }
 
+        private PastieLangauge GetCurrentEditorLanguage()
+        {
+            var activeFileName = this.Dte.ActiveWindow.Document.Name;
+            var extension = new FileInfo(activeFileName).Extension;
+            foreach (PastieLangauge value in Enum.GetValues(typeof(PastieLangauge)))
+            {
+                var extensions = value.GetAttributeValues<FileExtensionAttribute, string>(f => f.Extension);
+                if (extensions.Contains(extension))
+                {
+                    return value;
+                }
+            }
+
+            return PastieLangauge.PlainText;
+        }
 
         private static string GetTextForPastie(ITextView view)
         {
             if (SelectionIsAvailable(view))
+            {
                 return GetSelectedText(view);
+            }
 
             return view.TextSnapshot.GetText();
         }
 
         private static bool SelectionIsAvailable(ITextView view)
         {
-            if (view == null) throw new ArgumentNullException("view");
+            if (view == null)
+            {
+                throw new ArgumentNullException("view");
+            }
 
             return !view.Selection.IsEmpty && view.Selection.SelectedSpans.Count > 0;
         }
@@ -94,11 +97,14 @@ namespace Microsoft.VisualPastie
             IVsTextView vTextView;
 
             var txtMgr = (IVsTextManager)GetService(typeof(SVsTextManager));
+            
             const int mustHaveFocus = 1;
 
             txtMgr.GetActiveView(mustHaveFocus, null, out vTextView);
+           
 
             var userData = vTextView as IVsUserData;
+            
             if (null != userData)
             {
                 object holder;
@@ -109,7 +115,7 @@ namespace Microsoft.VisualPastie
                 var viewHost = (IWpfTextViewHost)holder;
                 view = viewHost.TextView;
             }
-
+            
             return view;
         }
 

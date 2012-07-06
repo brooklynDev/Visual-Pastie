@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileExtensionAttribute.cs" />
     <Compile Include="Pastie.cs" />
     <Compile Include="Internal\CustomUrlEncoder.cs" />
     <Compile Include="Languages.cs" />

@@ -15,14 +15,14 @@ namespace PastieAPI
         /// <param name="code">The code block to paste. (Note: This will automatically be encoded)</param>
         /// <param name="language">The language of the code to paste.</param>
         /// <returns>The URL to the new Pastie.</returns>
-        public static string Paste(string code, Languages language)
+        public static string Paste(string code, Language language)
         {
             if (String.IsNullOrEmpty(code))
             {
                 throw new ArgumentException("code");
             }
 
-            if (!Enum.IsDefined(typeof(Languages), language))
+            if (!Enum.IsDefined(typeof(Language), language))
             {
                 throw new ArgumentException("language");
             }
