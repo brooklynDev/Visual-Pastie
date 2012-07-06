@@ -91,7 +91,7 @@
 
 
   <KeyBindings>
-    <KeyBinding guid="guidVisualPastieCmdSet" id="visualPastieCommand"  editor="guidVSStd97" key1="P" mod1="Control Shift"/>
+    <KeyBinding guid="guidVisualPastieCmdSet" id="visualPastieCommand"  editor="guidVSStd97" key1="P" mod1="Control Alt"/>
   </KeyBindings>
 
 
