@@ -31,9 +31,14 @@ namespace PastieAPI
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
             var builder = new StringBuilder();
-            builder.Append("paste[parser_id]=" + (int)language);
+            builder.Append("utf8=&#x2713;");
+            var authorizationData = GetAuthorizationValues();
+            builder.Append("&paste[authorization]=" + authorizationData.AuthenticityToken);
+            builder.Append("&paste[parser_id]=" + (int)language);
             builder.Append("&paste[body]=" + CustomUrlEncoder.UrlEncode(code));
-            builder.Append("&paste[authorization]=" + GetAuthorization());
+            builder.Append("&paste[restricted]=0");
+
+            builder.Append("&paste[authorization]=" + authorizationData.PasteAuthorization);
 
             var bytes = Encoding.UTF8.GetBytes(builder.ToString());
             request.ContentLength = bytes.Length;
@@ -45,17 +50,33 @@ namespace PastieAPI
             return response.ResponseUri.ToString();
         }
 
-        private static string GetAuthorization()
+        private static AuthorizationData GetAuthorizationValues()
         {
-            const string authStartText = "$('paste_authorization').value=";
+            const string authStartText = "$('#paste_authorization').val('";
+            const string authTokenStartText = @"name=""authenticity_token"" type=""hidden"" value=""";
 
             using (var client = new WebClient())
             {
                 string html = client.DownloadString("http://pastie.org/");
                 var index = html.IndexOf(authStartText) + authStartText.Length;
-                var endIndex = html.IndexOf(';', index);
-                return html.Substring(index, endIndex - index).Replace("'", String.Empty);
+                var endIndex = html.IndexOf('\'', index);
+                var result = new AuthorizationData();
+                result.PasteAuthorization = html.Substring(index, endIndex - index).Replace("'", String.Empty);
+
+                index = html.IndexOf(authTokenStartText) + authTokenStartText.Length;
+                endIndex = html.IndexOf("\"", index);
+                result.AuthenticityToken = html.Substring(index, endIndex - index);
+                return result;
             }
         }
+
+        private class AuthorizationData
+        {
+            public string PasteAuthorization { get; set; }
+            public string AuthenticityToken { get; set; }
+        }
+
     }
+
+
 }

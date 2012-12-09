@@ -65,7 +65,7 @@ namespace Microsoft.VisualPastie
 
             return PastieLangauge.PlainText;
         }
-
+        
         private static string GetTextForPastie(ITextView view)
         {
             if (SelectionIsAvailable(view))
