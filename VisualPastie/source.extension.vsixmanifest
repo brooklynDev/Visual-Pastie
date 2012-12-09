@@ -3,7 +3,7 @@
   <Identifier Id="f0d08ee9-f357-4fe4-9fb6-bb2d5eae1290">
     <Name>VisualPastie</Name>
     <Author>Microsoft</Author>
-    <Version>1.2</Version>
+    <Version>1.3</Version>
     <Description xml:space="preserve">Create a pastie right from within Visual Studio. With one click, submit the selected code to Pastie.org, and the Url gets copied to your clipboard.</Description>
     <Locale>1033</Locale>
     <MoreInfoUrl>https://github.com/brooklynDev/Visual-Pastie</MoreInfoUrl>

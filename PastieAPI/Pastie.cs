@@ -32,12 +32,11 @@ namespace PastieAPI
             request.ContentType = "application/x-www-form-urlencoded";
             var builder = new StringBuilder();
             builder.Append("utf8=&#x2713;");
-            var authorizationData = GetAuthorizationValues();
             builder.Append("&paste[parser_id]=" + (int)language);
             builder.Append("&paste[body]=" + CustomUrlEncoder.UrlEncode(code));
             builder.Append("&paste[restricted]=0");
 
-            builder.Append("&paste[authorization]=" + authorizationData);
+            builder.Append("&paste[authorization]=burger");
 
             var bytes = Encoding.UTF8.GetBytes(builder.ToString());
             request.ContentLength = bytes.Length;
@@ -48,21 +47,6 @@ namespace PastieAPI
             var response = request.GetResponse();
             return response.ResponseUri.ToString();
         }
-
-        private static string GetAuthorizationValues()
-        {
-            const string authStartText = "$('#paste_authorization').val('";
-
-            using (var client = new WebClient())
-            {
-                string html = client.DownloadString("http://pastie.org/");
-                var index = html.IndexOf(authStartText) + authStartText.Length;
-                var endIndex = html.IndexOf('\'', index);
-                return html.Substring(index, endIndex - index).Replace("'", String.Empty);
-
-            }
-        }
-
     }
 
 
