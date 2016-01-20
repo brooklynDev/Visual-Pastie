@@ -30,6 +30,7 @@ namespace PastieAPI
             var request = (HttpWebRequest)WebRequest.Create("http://pastie.org/pastes");
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
+            request.UserAgent = "Visual-Pastie";
             var builder = new StringBuilder();
             builder.Append("utf8=&#x2713;");
             builder.Append("&paste[parser_id]=" + (int)language);
